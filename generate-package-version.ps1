@@ -52,7 +52,7 @@ function Get-SemverVersion() {
     # Add version
     $semver = $Version
     # Add stage
-    if ($stage -ne $null) { $semver = $semver + '-' + $stage }
+    if ($stage) { $semver = $semver + '-' + $stage }
     # Add build number as metadata
     $semver = $semver + '+build.' + $Build
     $semver
