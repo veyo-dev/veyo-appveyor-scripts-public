@@ -101,7 +101,7 @@ function Confirm-PackagesDoesNotExist() {
         if (Test-PackageExists -packageId $packageId -version $version -source $source) {
             $validationFailed = $true
             Write-Error -ErrorAction Continue @"
-The package "$packageId.$packageVersion" already exists in the "$feed" feed.
+The package "$packageId.$packageVersion" already exists in the "$source" feed.
 Please make sure you incremented the package version in appveyor.yml
 "@
         }
