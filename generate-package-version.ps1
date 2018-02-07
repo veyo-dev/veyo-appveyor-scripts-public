@@ -2,7 +2,8 @@
 .SYNOPSIS
     An AppVeyor build setup script for NuGet-based projects.
 .DESCRIPTION
-    The script generates a NuGet package version and ensures that the package with the given version does not exist in the AppVeyor feed.
+    The script generates a NuGet package version and ensures that the package with the given version does not exist
+    in the AppVeyor feed.
 .PARAMETER DisableVersionValidation
     Disables the validation of NuGet packages presence in the AppVeyor feed.
     Can be overridden with the DISABLE_VERSION_VALIDATION=true environment variable.
@@ -77,8 +78,8 @@ $main = {
 
 <#
 .SYNOPSIS
-    Given a list of package identifiers and a package version, validate that there are no packages with the same identifier
-    and version exist in the NuGet feed.
+    Given a list of package identifiers and a package version, validate that there are no packages with the same
+    identifier and version exist in the NuGet feed.
 .PARAMETER packageIds
     An array of package identifiers.
 .PARAMETER version
@@ -134,9 +135,10 @@ function Test-PackageExists() {
     # Notes on the naive nuget.exe usage:
     # 1) I am not using NuGet API directly here because we do not have access to the NuGet feed credentials
     #    and I do not want to parametrize all appveyor.ymls for NuGet projects with the feed credentials.
-    # 2) NuGet CLI does not support searching by specific package id and version, so I had to list all versions and grep from the output.
-    #    Please vote for https://github.com/NuGet/Home/issues/5138
-    # 3) Getting all package versions including pre-release ones is kinda okay since we are working with the NuGet repository almost locally.
+    # 2) NuGet CLI does not support searching by specific package id and version, so I had to list all versions and
+    #    grep from the output. Please vote for https://github.com/NuGet/Home/issues/5138
+    # 3) Getting all package versions including pre-release ones is kinda okay since we are working with the NuGet
+    #    repository almost locally.
     $output = nuget list $packageId -Source $source -AllVersions -Prerelease
     if ($LastExitCode -ne 0) {
         throw "nuget.exe failed with $LastExitCode exit code. See the error message above"
@@ -179,14 +181,16 @@ function Get-PackageIds() {
 .SYNOPSIS
     Given a project file find a NuGet `PackageId` value.
 .DESCRIPTION
-    A simple implementation that finds the `PackageId` property in the .csproj and follows one level deep to evaluate its value if needed.
+    A simple implementation that finds the `PackageId` property in the .csproj and follows one level deep to evaluate
+    its value if needed.
     We do not want to go crazy here with a properties evaluation or with loading MSBuild SDK to parse .csproj files.
 .PARAMETER project (FileInfo)
     The project file.
 .OUTPUTS
     1) The found `PacakgeId` package identifier
     2) The project file base name if `PacakgeId` is not found.
-    3) null if the project is not a NuGet one. The project is considered a NuGet package if it does not define `IsPackable=False` explicitly.
+    3) null if the project is not a NuGet one.
+       The project is considered a NuGet package if it does not define `IsPackable=False` explicitly.
 #>
 function Get-PackageId() {
     [CmdletBinding()]
@@ -231,7 +235,7 @@ function Get-PackageId() {
 
 <#
 .SYNOPSIS
-    Given a version, branch, and a build number generate a semver-2.0.0 version for a NuGet project.
+    Given a version and branch generate a semver-2.0.0 version for a NuGet project.
 .PARAMETER branch
     The branch name.
 .PARAMETER version
@@ -261,7 +265,8 @@ function Get-PackageId() {
     OUTPUT: '4.0.1-dev.yyy-123-an-amazing-feature.12+build.12'
 
     Note that the part of the branch name is appended as a pre-release tag as well as the build number.
-    This approach allows pushing a continuous stream of builds from feature branches without a need to increment versions manually each time.
+    This approach allows pushing a continuous stream of builds from feature branches without a need to increment
+    versions manually each time.
 #>
 function Get-SemverVersion() {
     [CmdletBinding()]
