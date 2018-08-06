@@ -13,8 +13,6 @@ param ( [string] $Version   = $env:APPVEYOR_BUILD_VERSION )
 $ErrorActionPreference = 'Stop'
 
 if (!$Version)   { throw 'Missing APPVEYOR_BUILD_VERSION environment variable'}
-if (!$Workspace) { throw 'Missing APPVEYOR_BUILD_FOLDER environment variable'}
-if (!$Branch)    { throw 'Missing APPVEYOR_REPO_BRANCH environment variable'}
 
 $main = {
     Write-Host "Setting assembly version to `"$Version`""
