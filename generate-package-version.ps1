@@ -284,6 +284,8 @@ function Get-SemverVersion() {
     $branch = $branch.ToLowerInvariant().Trim()
     if ($branch -eq 'master') {
         $stage = $null
+    } elseif ($branch -eq 'main') {
+        $stage = $null
     } elseif ($branch -eq 'test') {
         $stage = 'test.' + $build
     } elseif ($branch -eq 'dev') {
